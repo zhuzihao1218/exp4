@@ -13,28 +13,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up JDK
+      - name: Set up JDK //建立环境
         uses: actions/setup-java@v4
         with:
           java-version: '22'
           distribution: 'temurin'
 
-      - name: Cache Maven dependencies
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
-
-      - name: Build with Maven
+      - name: Build with Maven //构建
         run: mvn -B package --file pom.xml -DskipTests
 
-      - name: Upload JAR
+      - name: Upload JAR //上传
         uses: actions/upload-artifact@v4
         with:
           name: project-jar
-          path: target/*.jar
+          path: target/result.jar
           retention-days: 30
 
       - name: Run tests
@@ -45,6 +37,6 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: test-results
+          name: test-failure
           path: target/surefire-reports/
           retention-days: 30
