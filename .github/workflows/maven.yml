@@ -13,27 +13,27 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up JDK //建立环境
+      - name: 建立环境
         uses: actions/setup-java@v4
         with:
           java-version: '22'
           distribution: 'temurin'
 
-      - name: Build with Maven //构建
+      - name: 构建
         run: mvn -B package --file pom.xml -DskipTests
 
-      - name: Upload JAR //上传
+      - name: 上传+JAR
         uses: actions/upload-artifact@v4
         with:
           name: project-jar
           path: target/result.jar
           retention-days: 30
 
-      - name: Run tests
+      - name: 进行测试
         run: mvn test
         continue-on-error: true
 
-      - name: Upload test results
+      - name: 上传测试结果和保存测试结果
         if: always()
         uses: actions/upload-artifact@v4
         with:
